@@ -1,23 +1,25 @@
 const Product = require("../models/products.model");
 
 class ProductsServices {
-  getAllProducts = async () => {
+  getAllProductsService = async () => {
     return await Product.find();
   };
 
-  getProductById = async (id) => {
+  getProductByIdService = async (id) => {
     return await Product.findOne({ _id: id });
   };
 
-  deleteProductById = async (id) => {
+  deleteProductByIdService = async (id) => {
     return await Product.findByIdAndDelete({ _id: id });
   };
 
-  postProduct = async (body) => {
+  postProductService = async (body) => {
     return await Product.create(body);
   };
 
-  putProduct = async (body) => {
+  putProductService = async (id, body) => {
     return await Product.findByIdAndUpdate({ _id: id }, body, { new: true });
   };
 }
+
+module.exports = productsServices = new ProductsServices();
