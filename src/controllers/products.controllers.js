@@ -57,28 +57,23 @@ class ProductControllers {
 
   postProductController = async (req, res) => {
     try {
-      //apagar tratativa
-      if (!req.body.name || !req.body.price || !req.body.quantity) {
-        res.status(400).send({ message: "Incomplete fields in request." });
+      const { name, price, quantity, provider, photo } = req.body;
+      const body = {
+        name: name,
+        price: price,
+        quantity: quantity,
+        provider: provider ?? "",
+        photo: photo ?? "",
+      };
+
+      const newProduct = await productsServices.postProductService(body);
+
+      if (!newProduct) {
+        res
+          .status(400)
+          .send({ message: "There was a problem posting the product." });
       } else {
-        const { name, price, quantity, provider, photo } = req.body;
-        const body = {
-          name: name,
-          price: price,
-          quantity: quantity,
-          provider: provider ?? "",
-          photo: photo ?? "",
-        };
-
-        const newProduct = await productsServices.postProductService(body);
-
-        if (!newProduct) {
-          res
-            .status(400)
-            .send({ message: "There was a problem posting the product." });
-        } else {
-          res.status(200).send(newProduct);
-        }
+        res.status(200).send(newProduct);
       }
     } catch (err) {
       res
